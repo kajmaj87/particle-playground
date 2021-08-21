@@ -1,4 +1,4 @@
 (
     title: "Particle Playground",
-    dimensions: Some(800, 600),
+    dimensions: Some((1800, 600)),
 )
