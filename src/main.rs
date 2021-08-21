@@ -6,6 +6,7 @@ use amethyst::{assets::LoaderBundle, core::transform::TransformBundle, prelude::
     }, utils::{application_root_dir, ortho_camera::build_camera_normalize_system}};
 
 mod particles;
+mod camera;
 
 use crate::particles::ParticleState;
 

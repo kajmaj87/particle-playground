@@ -2,15 +2,17 @@ use amethyst::{
     assets::{DefaultLoader, Handle, Loader, ProcessingQueue},
     core::transform::Transform,
     prelude::*,
-    renderer::{Camera, SpriteRender, SpriteSheet, Texture},
-    utils::ortho_camera::{CameraNormalizeMode, CameraOrtho, CameraOrthoWorldCoordinates},
+    renderer::{SpriteRender, SpriteSheet, Texture},
 };
+
+use crate::camera::initialize_camera;
 
 const MAP_HEIGHT: f32 = 100.0;
 const MAP_WIDTH: f32 = 100.0;
 
 const PARTICLE_RADIUS: f32 = 4.0;
 pub struct ParticleState;
+
 
 struct Particle;
 
@@ -30,27 +32,10 @@ impl SimpleState for ParticleState {
         let sprite_sheet_handle = load_sprite_sheet(data.resources);
 
         initialize_particles(world, sprite_sheet_handle);
-        initialize_camera(world);
+        initialize_camera(world, MAP_WIDTH, MAP_HEIGHT);
     }
 }
 
-/// initialize the camera.
-fn initialize_camera(world: &mut World) {
-    // Setup camera in a way that our screen covers whole arena and (0, 0) is in the bottom left.
-    let mut transform = Transform::default();
-    transform.set_translation_xyz(0.0, MAP_HEIGHT, 1.0);
-    let mut ortho = CameraOrtho::default();
-    ortho.mode = CameraNormalizeMode::Contain;
-    ortho.world_coordinates = CameraOrthoWorldCoordinates {
-        left: 0.0,
-        top: MAP_HEIGHT,
-        right: MAP_WIDTH,
-        bottom: 0.0,
-        far: 2000.0,
-        near: 1.0,
-    };
-    world.push((Camera::standard_2d(MAP_WIDTH, MAP_HEIGHT), transform, ortho));
-}
 
 fn initialize_particles(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
     let mut left_transform = Transform::default();
